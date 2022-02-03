@@ -1,3 +1,7 @@
+import flatpickr from 'flatpickr';
+
+import 'flatpickr/dist/flatpickr.min.css';
+
 class Timer {
   constructor({ targetDate }) {
     this.targetDate = targetDate;
@@ -58,7 +62,26 @@ const dateTimePicker = document.querySelector('#datetime-picker');
 const startTimerRef = dateTimePicker.nextElementSibling;
 
 function startTimerHandler() {
-  const timer = new Timer({ targetDate: new Date(dateTimePicker.value) });
+  const selectedDate = new Date(dateTimePicker.value);
+  const isInFuture = Date.parse(selectedDate) <= Date.parse(new Date());
+
+  if (isInFuture) {
+    alert('Date must be in future');
+    dateTimePicker.value = new Date();
+    return;
+  }
+
+  const timer = new Timer({ targetDate: new Date(selectedDate) });
 }
 
 startTimerRef.addEventListener('click', startTimerHandler);
+
+flatpickr('#datetime-picker', {
+  enableTime: true,
+  time_24hr: true,
+  defaultDate: new Date(),
+  minuteIncrement: 1,
+  onClose(selectedDates) {
+    console.log(selectedDates[0]);
+  },
+});
