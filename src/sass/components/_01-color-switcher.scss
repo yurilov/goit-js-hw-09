@@ -1,0 +1,26 @@
+button {
+  margin: 20px;
+  height: 44px;
+  padding-right: 37px;
+  padding-left: 37px;
+  font-family: 'Times New Roman', Times, serif;
+  @include font(14px, 1.3, 700, 0em);
+  text-align: center;
+  color: #212121;
+  background-color: #ffffff;
+  border-color: #212121;
+  border-style: solid;
+  border-radius: 22px;
+  cursor: pointer;
+
+  &:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+  }
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  margin: -10px;
+}
