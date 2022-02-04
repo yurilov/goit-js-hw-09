@@ -1,4 +1,4 @@
-button {
+.btn {
   margin: 20px;
   height: 44px;
   padding-right: 37px;
@@ -12,10 +12,13 @@ button {
   border-style: solid;
   border-radius: 22px;
   cursor: pointer;
+  box-shadow: 5px 9px 27px 17px rgba(153, 182, 204, 0.2);
 
   &:disabled {
     background-color: gray;
+    border: none;
     cursor: not-allowed;
+    box-shadow: none;
   }
 }
 

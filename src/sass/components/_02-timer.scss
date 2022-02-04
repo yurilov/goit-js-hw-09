@@ -1,0 +1,21 @@
+.timer-container {
+  max-width: 680px;
+}
+#datetime-picker {
+  //
+}
+
+.timer {
+  display: flex;
+  & .field {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  & .label,
+  & .value {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+}

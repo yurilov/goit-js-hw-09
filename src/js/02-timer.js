@@ -35,25 +35,13 @@ class Timer {
       secsSpan: faceClock.querySelector(`[data-seconds]`),
     };
 
-    refs.daysSpan.textContent = String(this.getDataForTimer().days).padStart(
-      2,
-      '0'
-    );
+    refs.daysSpan.textContent = String(this.getDataForTimer().days).padStart(2, '0');
 
-    refs.hoursSpan.textContent = String(this.getDataForTimer().hours).padStart(
-      2,
-      '0'
-    );
+    refs.hoursSpan.textContent = String(this.getDataForTimer().hours).padStart(2, '0');
 
-    refs.minsSpan.textContent = String(this.getDataForTimer().minutes).padStart(
-      2,
-      '0'
-    );
+    refs.minsSpan.textContent = String(this.getDataForTimer().minutes).padStart(2, '0');
 
-    refs.secsSpan.textContent = String(this.getDataForTimer().seconds).padStart(
-      2,
-      '0'
-    );
+    refs.secsSpan.textContent = String(this.getDataForTimer().seconds).padStart(2, '0');
   }
 
   timerStart() {
@@ -84,18 +72,18 @@ const options = {
     if (initDate > currentDate) {
       startTimerRef.disabled = false;
     } else {
+      startTimerRef.disabled = true;
       Notify.failure('Please choose a date in the future');
     }
   },
 };
 
-const fpickr = flatpickr("#datetime-picker", options);
+const fpickr = flatpickr('#datetime-picker', options);
 
 function startTimerHandler() {
   const selectedDate = new Date(fpickr.element.value);
-  
+
   const timer = new Timer({ targetDate: new Date(selectedDate) });
 }
 
 startTimerRef.addEventListener('click', startTimerHandler);
-
