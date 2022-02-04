@@ -1,6 +1,6 @@
 import flatpickr from 'flatpickr';
-
 import 'flatpickr/dist/flatpickr.min.css';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 class Timer {
   constructor({ targetDate }) {
@@ -35,13 +35,25 @@ class Timer {
       secsSpan: faceClock.querySelector(`[data-seconds]`),
     };
 
-    refs.daysSpan.textContent = String(this.getDataForTimer().days).padStart(2, '0');
+    refs.daysSpan.textContent = String(this.getDataForTimer().days).padStart(
+      2,
+      '0'
+    );
 
-    refs.hoursSpan.textContent = String(this.getDataForTimer().hours).padStart(2, '0');
+    refs.hoursSpan.textContent = String(this.getDataForTimer().hours).padStart(
+      2,
+      '0'
+    );
 
-    refs.minsSpan.textContent = String(this.getDataForTimer().minutes).padStart(2, '0');
+    refs.minsSpan.textContent = String(this.getDataForTimer().minutes).padStart(
+      2,
+      '0'
+    );
 
-    refs.secsSpan.textContent = String(this.getDataForTimer().seconds).padStart(2, '0');
+    refs.secsSpan.textContent = String(this.getDataForTimer().seconds).padStart(
+      2,
+      '0'
+    );
   }
 
   timerStart() {
@@ -56,32 +68,34 @@ class Timer {
     }, 1000);
   }
 }
-
+let initDate = null;
+const currentDate = Date.now();
 const dateTimePicker = document.querySelector('#datetime-picker');
-
 const startTimerRef = dateTimePicker.nextElementSibling;
+startTimerRef.disabled = true;
 
-function startTimerHandler() {
-  const selectedDate = new Date(dateTimePicker.value);
-  const isInFuture = Date.parse(selectedDate) <= Date.parse(new Date());
-
-  if (isInFuture) {
-    alert('Date must be in future');
-    dateTimePicker.value = new Date();
-    return;
-  }
-
-  const timer = new Timer({ targetDate: new Date(selectedDate) });
-}
-
-startTimerRef.addEventListener('click', startTimerHandler);
-
-flatpickr('#datetime-picker', {
+const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
+    initDate = selectedDates[0];
+    if (initDate > currentDate) {
+      startTimerRef.disabled = false;
+    } else {
+      Notify.failure('Please choose a date in the future');
+    }
   },
-});
+};
+
+const fpickr = flatpickr("#datetime-picker", options);
+
+function startTimerHandler() {
+  const selectedDate = new Date(fpickr.element.value);
+  
+  const timer = new Timer({ targetDate: new Date(selectedDate) });
+}
+
+startTimerRef.addEventListener('click', startTimerHandler);
+
