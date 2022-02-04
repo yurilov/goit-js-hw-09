@@ -1,6 +1,7 @@
 .timer-container {
   max-width: 680px;
 }
+
 #datetime-picker {
   padding: 14px 16px;
   margin-top: 20px;
@@ -30,6 +31,13 @@ button[data-start] {
 
   padding: 10px 29px;
   align-items: center;
+
+  &:disabled {
+    background-color: gray;
+    border: none;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
 }
 
 .timer {
