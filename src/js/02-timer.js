@@ -5,6 +5,7 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 class Timer {
   constructor({ targetDate }) {
     this.targetDate = targetDate;
+    this.timerId = null;
     this.creatingFaceClock();
     this.timerStart();
   }
@@ -45,17 +46,17 @@ class Timer {
   }
 
   timerStart() {
-    const deadline = Date.parse(this.targetDate) <= Date.parse(new Date());
-    this.startForTimer = setInterval(() => {
-      if (deadline) {
-        clearInterval(this.startForTimer);
-        return;
+    this.timerId = setInterval(() => {
+      const timeLeft = this.targetDate - new Date();
+      if (timeLeft <= 1000) {
+        clearInterval(this.timerId);
+        Notify.success('Time is out');
       }
-
       this.creatingFaceClock();
     }, 1000);
   }
 }
+
 let initDate = null;
 const currentDate = Date.now();
 const dateTimePicker = document.querySelector('#datetime-picker');
@@ -68,7 +69,7 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    initDate = selectedDates[0];
+    initDate = selectedDates[0].getTime();
     if (initDate > currentDate) {
       startTimerRef.disabled = false;
     } else {
@@ -81,7 +82,7 @@ const options = {
 const fpickr = flatpickr('#datetime-picker', options);
 
 function startTimerHandler() {
-  const selectedDate = new Date(fpickr.element.value);
+  const selectedDate = new Date(initDate);
 
   const timer = new Timer({ targetDate: new Date(selectedDate) });
 }
