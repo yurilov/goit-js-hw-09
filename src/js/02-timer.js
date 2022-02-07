@@ -51,6 +51,7 @@ class Timer {
       if (timeLeft <= 1000) {
         clearInterval(this.timerId);
         Notify.success('Time is out');
+        startTimerRef.disabled = false;
       }
       this.creatingFaceClock();
     }, 1000);
@@ -85,6 +86,7 @@ function startTimerHandler() {
   const selectedDate = new Date(initDate);
 
   const timer = new Timer({ targetDate: new Date(selectedDate) });
+  startTimerRef.disabled = true;
 }
 
 startTimerRef.addEventListener('click', startTimerHandler);
